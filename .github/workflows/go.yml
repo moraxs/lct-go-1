@@ -24,17 +24,14 @@ jobs:
       - name: Install MSYS2
         run: |
           choco install -y msys2
-          refreshenv
+          echo "C:\\tools\\msys64\\mingw64\\bin" >> $GITHUB_PATH
+          echo "C:\\tools\\msys64\\usr\\bin" >> $GITHUB_PATH
 
       - name: Set up MSYS2
         run: |
           msys2 -c "pacman -Sy --noconfirm"
           msys2 -c "pacman -S --noconfirm mingw-w64-x86_64-toolchain"
           msys2 -c "pacman -S --noconfirm mingw-w64-x86_64-webkitgtk"
-
-      - name: Add MSYS2 to PATH
-        run: |
-          echo "C:\\msys64\\mingw64\\bin" >> $GITHUB_PATH
 
       - name: Build Golang project
         run: |
