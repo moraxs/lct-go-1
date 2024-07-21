@@ -21,12 +21,16 @@ jobs:
         with:
           go-version: '1.18'
 
-      - name: Install MSYS2 and dependencies
+      - name: Install MinGW
         run: |
-          choco install -y msys2
+          choco install -y mingw
           refreshenv
-          C:\tools\msys64\usr\bin\bash -lc "pacman -Sy --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-gtk3 mingw-w64-x86_64-webkitgtk"
-          
+
+      - name: Add MinGW to PATH
+        run: |
+          echo "::add-path::C:\\tools\\mingw64\\bin"
+          refreshenv
+
       - name: Build Golang project
         run: |
           go mod tidy
