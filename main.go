@@ -3,7 +3,7 @@ package main
 import (
     "embed"
     "net/http"
-    "github.com/webview/webview"
+    "github.com/webview/webview_go"
 )
 
 //go:embed dist/*
