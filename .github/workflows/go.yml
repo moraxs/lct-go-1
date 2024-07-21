@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out code
@@ -21,22 +21,15 @@ jobs:
         with:
           go-version: '1.18'
 
-      - name: Install MSYS2
+      - name: Install mingw-w64
         run: |
-          Invoke-WebRequest -Uri https://github.com/msys2/msys2-installer/releases/download/20210725/msys2-x86_64-20210725.exe -OutFile msys2-installer.exe
-          Start-Process -Wait -FilePath msys2-installer.exe -ArgumentList "/S"
-          echo "C:\\tools\\msys64\\usr\\bin" >> $GITHUB_PATH
-
-      - name: Install MSYS2 Packages
-        run: |
-          C:\tools\msys64\usr\bin\bash.exe -c "pacman -Sy --noconfirm"
-          C:\tools\msys64\usr\bin\bash.exe -c "pacman -S --noconfirm mingw-w64-x86_64-toolchain"
-          C:\tools\msys64\usr\bin\bash.exe -c "pacman -S --noconfirm mingw-w64-x86_64-webkitgtk"
+          sudo apt-get update
+          sudo apt-get install -y mingw-w64
 
       - name: Build Golang project
         run: |
           go mod tidy
-          go build -o my-vue-app.exe
+          GOOS=windows GOARCH=amd64 go build -o my-vue-app.exe
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2
@@ -45,7 +38,7 @@ jobs:
           path: my-vue-app.exe
 
   release:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
 
     steps:
