@@ -21,6 +21,13 @@ jobs:
         with:
           go-version: '1.18'
 
+      - name: Install MSYS2 and dependencies
+        run: |
+          choco install -y msys2
+          refreshenv
+          ridk install 2 3
+          pacman -Sy --noconfirm mingw-w64-x86_64-toolchain mingw-w64-x86_64-gtk3 mingw-w64-x86_64-webkitgtk
+
       - name: Build Golang project
         run: |
           go mod tidy
