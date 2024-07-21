@@ -22,14 +22,10 @@ jobs:
           go-version: '1.18'
 
       - name: Install MinGW
-        run: |
-          choco install -y mingw
-          refreshenv
+        run: choco install -y mingw
 
       - name: Add MinGW to PATH
-        run: |
-          echo "::add-path::C:\\tools\\mingw64\\bin"
-          refreshenv
+        run: echo "::add-path::C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\bin"
 
       - name: Build Golang project
         run: |
